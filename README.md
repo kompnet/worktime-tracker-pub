@@ -5,7 +5,7 @@ WorkTime Tracker App
 ## Models
 - Post -> date:date description:text
 x User -> Devise
-- AdminUser -> STI
+x AdminUser -> STI
 
 ## Features:
 
