@@ -22,12 +22,24 @@ describe 'navigate' do
     end
 
     it 'can be created from new form page' do
+      n = SecureRandom.hex(10)
+      user = User.create!(email: "test3#{n}@test.com", password: "asdfasdf", password_confirmation: "asdfasdf", first_name: "John", last_name: "Smith")
+      login_as(user, :scope => :user)
       fill_in 'post[date]', with: Date.today
       fill_in 'post[rationale]', with: "Some rationale"
       click_on "Save"
 
       expect(page).to have_content("Some rationale")
     end
-  end
+    it 'will have a user associated it' do
+      n = SecureRandom.hex(10)
+      user = User.create!(email: "test4#{n}@test.com", password: "asdfasdf", password_confirmation: "asdfasdf", first_name: "John", last_name: "Smith")
+      login_as(user, :scope => :user)
+      fill_in 'post[date]', with: Date.today
+      fill_in 'post[rationale]', with: "User Association"
+      click_on "Save"
 
+      expect(User.last.posts.last.rationale).to eq("User Association")
+    end
+  end
 end
