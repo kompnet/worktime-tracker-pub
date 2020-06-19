@@ -16,3 +16,7 @@ x AdminUser -> STI
 
 ## UI:
 - Bootstrap -> formatting
+
+## Refactor TODOS:
+- Add full name method for users
+- Refactor user association integration test in post_spec
