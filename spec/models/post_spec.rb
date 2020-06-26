@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Post, type: :model do
   before do
-    @post = Post.create(date: Date.today, rationale: "Anything")
+    @post = Post.create(date: Date.today, rationale: "Anything", user_id: 1)
   end
   describe 'Creation' do
     it 'can be created' do
@@ -15,5 +15,4 @@ RSpec.describe Post, type: :model do
       expect(@post).to_not be_valid
     end
   end
-  # after(:all) { Post.destroy_all }
 end
