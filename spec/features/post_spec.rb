@@ -1,64 +1,56 @@
 require 'rails_helper'
 
 describe 'navigate' do
+
   before do
-    # n = SecureRandom.hex(10)
-    # user = User.create!(email: "test8#{n}@test.com", password: "asdfasdf", password_confirmation: "asdfasdf", first_name: "John", last_name: "Smith")
-    # login_as(user, :scope => :user)
+    n = SecureRandom.hex(10)
+    @user = User.create!(email: "test8#{n}@test.com", password: "asdfasdf", password_confirmation: "asdfasdf", first_name: "John", last_name: "Smith")
+    login_as(@user, :scope => :user)
   end
 
   describe 'index' do
+
     before do
       visit posts_path
-
     end
-    it 'can be reached successfully' do
 
+    it 'can be reached successfully' do
       expect(page.status_code).to eq(200)
     end
+
     it 'has a title of Posts' do
-      n = SecureRandom.hex(10)
-      user = User.create!(email: "test8#{n}@test.com", password: "asdfasdf", password_confirmation: "asdfasdf", first_name: "John", last_name: "Smith")
-      login_as(user, :scope => :user)
       expect(page).to have_content(/Posts/)
     end
-    it 'has a list of posts' do
-      n = SecureRandom.hex(10)
-      user = User.create!(email: "test9#{n}@test.com", password: "asdfasdf", password_confirmation: "asdfasdf", first_name: "John", last_name: "Smith")
-      post1 = Post.create(date: Date.today, rationale: "Post1", user_id: user.id)
-      post2 = Post.create(date: Date.today, rationale: "Post2", user_id: user.id)
-      expect(page).to have_content(/Post1|Post2/)
 
+    it 'has a list of posts' do
+      post1 = Post.create!(date: Date.today, rationale: "Post1", user_id: 1)
+      post2 = Post.create!(date: Date.today, rationale: "Post2", user_id: 1)
+      visit posts_path
+      expect(page).to have_content(/Post1|Post2/)
     end
 
   end
   describe 'creation' do
+
     before do
       visit new_post_path
     end
-    it 'has a new form that can be reached' do
 
-    expect(page.status_code).to eq(200)
+    it 'has a new form that can be reached' do
+      expect(page.status_code).to eq(200)
     end
 
     it 'can be created from new form page' do
-      n = SecureRandom.hex(10)
-      user = User.create!(email: "test3#{n}@test.com", password: "asdfasdf", password_confirmation: "asdfasdf", first_name: "John", last_name: "Smith")
-      login_as(user, :scope => :user)
       fill_in 'post[date]', with: Date.today
       fill_in 'post[rationale]', with: "Some rationale"
       click_on "Save"
-
       expect(page).to have_content("Some rationale")
     end
+
     it 'will have a user associated it' do
-      n = SecureRandom.hex(10)
-      user = User.create!(email: "test4#{n}@test.com", password: "asdfasdf", password_confirmation: "asdfasdf", first_name: "John", last_name: "Smith")
-      login_as(user, :scope => :user)
       fill_in 'post[date]', with: Date.today
       fill_in 'post[rationale]', with: "User Association"
       click_on "Save"
-
       expect(User.last.posts.last.rationale).to eq("User Association")
     end
   end
