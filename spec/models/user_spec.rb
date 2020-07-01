@@ -2,8 +2,7 @@ require 'rails_helper'
 
 RSpec.describe User, type: :model do
   before do
-    n = SecureRandom.hex(10)
-    @user = User.create!(email: "test1#{n}@test.com", password: "asdfasdf", password_confirmation: "asdfasdf", first_name: "John", last_name: "Smith")
+    @user = FactoryBot.create(:user)
   end
 
   describe "creation" do

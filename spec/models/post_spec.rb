@@ -2,7 +2,8 @@ require 'rails_helper'
 
 RSpec.describe Post, type: :model do
   before do
-    @post = Post.create(date: Date.today, rationale: "Anything", user_id: 1)
+    @user = FactoryBot.create(:user)
+    @post = FactoryBot.build_stubbed(:post)
   end
   describe 'Creation' do
     it 'can be created' do
